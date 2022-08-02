@@ -1,18 +1,27 @@
-const Pet = () => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, "Luna"),
-    React.createElement("h2", {}, "Dog"),
-    React.createElement("h2", {}, "Havanese"),
-  ]);
-};
+import { render } from "react-dom";
+import SearchParams from "./SearchParams";
+import { StrictMode, useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Details from "./Details";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, "Adopt Me!"),
-    React.createElement(Pet),
-    React.createElement(Pet),
-    React.createElement(Pet),
-  ]);
+  const theme = useState("darkblue");
+  return (
+    <StrictMode>
+      <ThemeContext.Provider value={theme}>
+        <BrowserRouter>
+          <header>
+            <Link to="/">Adopt Me!</Link>
+          </header>
+          <Routes>
+            <Route path="/details/:id" element={<Details />} />
+            <Route path="/" element={<SearchParams />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeContext.Provider>
+    </StrictMode>
+  );
 };
 
-ReactDOM.render(React.createElement(App), document.getElementById("root"));
+render(<App />, document.getElementById("root"));
